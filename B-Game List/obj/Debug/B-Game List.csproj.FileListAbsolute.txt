@@ -1,0 +1,6 @@
+C:\Users\Ertai\Documents\Visual Studio 2017\Projects\B-Game List\B-Game List\obj\Debug\B-Game List.csprojResolveAssemblyReference.cache
+C:\Users\Ertai\Documents\Visual Studio 2017\Projects\B-Game List\B-Game List\bin\Debug\B-Game List.exe.config
+C:\Users\Ertai\Documents\Visual Studio 2017\Projects\B-Game List\B-Game List\bin\Debug\B-Game List.exe
+C:\Users\Ertai\Documents\Visual Studio 2017\Projects\B-Game List\B-Game List\bin\Debug\B-Game List.pdb
+C:\Users\Ertai\Documents\Visual Studio 2017\Projects\B-Game List\B-Game List\obj\Debug\B-Game List.exe
+C:\Users\Ertai\Documents\Visual Studio 2017\Projects\B-Game List\B-Game List\obj\Debug\B-Game List.pdb
