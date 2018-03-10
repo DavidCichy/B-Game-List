@@ -1,14 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameListApp
+namespace BGameList
 {
 
     class GameList
     {
+        public static void SaveGameList(Game[] log, int ll)
+        {
+            StreamWriter f = new StreamWriter(  "gamelist.dat");
+            f.WriteLine("{0}\n", ll);
+            for (int i = 0; i < ll; i++)
+            {
+                f.WriteLine("{0}; {1}; {2}; {3}\n", log[i].GameNumber, log[i].GameName, log[i].Notes, log[i].AdditionDate);
+            }
+            f.Close();
+        }
+        public static Game[] LoadGameList (string filename) {
+            Game[] log = new Game[499];
+            return log;
+        }
         public static void ListGames(Game[] list, int ll)
         {
             for (int i = 0; i < ll; i++)
@@ -18,7 +33,7 @@ namespace GameListApp
                 {
                     Console.Write(" - {0}", list[i].Notes);
                 }
-                Console.Write("({0})\n", list[i].AdditionDate);
+                Console.Write(" ({0})\n", list[i].AdditionDate.ToString("d"));
             }
         }
         public struct Game
@@ -35,7 +50,7 @@ namespace GameListApp
             string r = "";
             int list_lenght = 0;
             string add;
-            Game[] log = new Game[499];
+            Game[] log = new Game[499]; //znaleźć sposób na dynamicznie rozszerzany array
             bool newGame = true;
 
 
@@ -50,16 +65,6 @@ namespace GameListApp
                 {
                     Console.WriteLine("GAME LIST:\n");
                     GameList.ListGames(log, list_lenght);
-                    /*
-                    for (int i = 0; i < list_lenght; i++)
-                    {
-                        Console.Write("{0}) \"{1}\"", log[i].GameNumber, log[i].GameName);
-                        if (log[i].Notes != "")
-                        {
-                            Console.Write(" - {0}", log[i].Notes);
-                        }
-                        Console.Write("({0})\n", log[i].AdditionDate);
-                    }*/
                     Console.WriteLine("\nEnd of list. Press any key to continue.");
                     Console.ReadKey();
 
@@ -88,6 +93,7 @@ namespace GameListApp
                         log[list_lenght].GameNumber = list_lenght + 1;
                         list_lenght++;
                     }
+                    SaveGameList(log, list_lenght);
 
                 }
                 else if (c == "3" || c.ToLower() == "r")
@@ -113,7 +119,7 @@ namespace GameListApp
                         }
                         //dodać wyjątek jak nie ma numeru/podanej danej na liście
                     };
-                    Console.WriteLine("\nGAME LIST:\n");
+                    Console.WriteLine("\nUPDATED GAME LIST:\n");
                     GameList.ListGames(log, list_lenght);
                     Console.ReadKey();
                     //if (r == "1" || c.ToLower() == "l")
@@ -130,3 +136,7 @@ namespace GameListApp
         }
     }
 }
+// zapisywanie do i pobieranie z pliku
+// zmienić wyświetlanie daty
+// nieograniczony array
+// wprowadzić sortowanie alfabetyczne
