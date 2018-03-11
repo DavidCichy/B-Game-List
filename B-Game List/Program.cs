@@ -12,16 +12,38 @@ namespace BGameList
     {
         public static void SaveGameList(Game[] log, int ll)
         {
-            StreamWriter f = new StreamWriter(  "gamelist.dat");
-            f.WriteLine("{0}\n", ll);
+            StreamWriter f = new StreamWriter("gamelist.dat");
+            f.WriteLine("{0}", ll);
             for (int i = 0; i < ll; i++)
             {
-                f.WriteLine("{0}; {1}; {2}; {3}\n", log[i].GameNumber, log[i].GameName, log[i].Notes, log[i].AdditionDate);
+                f.WriteLine("{0}", log[i].GameNumber);
+                f.WriteLine("{0}", log[i].GameName);
+                f.WriteLine("{0}", log[i].Notes);
+                f.WriteLine("{0}", log[i].AdditionDate);
+                // zmienić oddzielanie danych tabeli w pliku - średniki zamiast linii
             }
             f.Close();
         }
-        public static Game[] LoadGameList (string filename) {
+        public static int LoadGameListLenght()
+        {
+            StreamReader sr = new StreamReader("gamelist.dat");
+            sr.Close();
+            return Convert.ToInt32(sr.ReadLine());
+        }
+        public static Game[] LoadGameList()
+        {
+            StreamReader sr = new StreamReader("gamelist.dat");
             Game[] log = new Game[499];
+            int ll = Convert.ToInt32(sr.ReadLine());
+            for (int i = 0; i < ll; i++)
+            {
+                log[i].GameNumber = Convert.ToInt32(sr.ReadLine());
+                log[i].GameName = sr.ReadLine(); 
+                log[i].Notes = sr.ReadLine();
+                log[i].AdditionDate = sr.ReadLine();
+                // zmienić oddzielanie danych tabeli w pliku - średniki zamiast linii
+            }
+            sr.Close();
             return log;
         }
         public static void ListGames(Game[] list, int ll)
@@ -33,7 +55,7 @@ namespace BGameList
                 {
                     Console.Write(" - {0}", list[i].Notes);
                 }
-                Console.Write(" ({0})\n", list[i].AdditionDate.ToString("d"));
+                Console.Write(" ({0})\n", list[i].AdditionDate);
             }
         }
         public struct Game
@@ -41,7 +63,7 @@ namespace BGameList
             public int GameNumber;
             public string GameName;
             public string Notes;
-            public DateTime AdditionDate;
+            public string AdditionDate;
         }
 
         static void Main(string[] args)
@@ -50,7 +72,13 @@ namespace BGameList
             string r = "";
             int list_lenght = 0;
             string add;
-            Game[] log = new Game[499]; //znaleźć sposób na dynamicznie rozszerzany array
+            Game[] log = new Game[499]; //debug i optymalizacja - robić coraz większe tabele
+            if (File.Exists("gamelist.dat"))
+                { 
+                list_lenght = LoadGameListLenght();
+                Console.WriteLine("Games imported: {0}", list_lenght);
+                log = LoadGameList();
+                Console.ReadKey();}
             bool newGame = true;
 
 
@@ -87,7 +115,7 @@ namespace BGameList
                     if (newGame == true)
                     {
                         log[list_lenght].GameName = add;
-                        log[list_lenght].AdditionDate = DateTime.Today;
+                        log[list_lenght].AdditionDate = Convert.ToString(DateTime.Today()); //poprawić formatowanie daty
                         Console.Write("Notes: ");
                         log[list_lenght].Notes = Console.ReadLine();
                         log[list_lenght].GameNumber = list_lenght + 1;
@@ -121,10 +149,8 @@ namespace BGameList
                     };
                     Console.WriteLine("\nUPDATED GAME LIST:\n");
                     GameList.ListGames(log, list_lenght);
+                    SaveGameList(log, list_lenght);
                     Console.ReadKey();
-                    //if (r == "1" || c.ToLower() == "l")
-                    //{
-                    //}
                 }
                 else if (c != "0" && c.ToLower() != "e")
                 {
@@ -136,7 +162,5 @@ namespace BGameList
         }
     }
 }
-// zapisywanie do i pobieranie z pliku
-// zmienić wyświetlanie daty
 // nieograniczony array
 // wprowadzić sortowanie alfabetyczne
