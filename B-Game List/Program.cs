@@ -16,11 +16,9 @@ namespace BGameList
             sw.WriteLine("{0}", ll);
             for (int i = 0; i < ll; i++)
             {
-                //sw.WriteLine("{0}", log[i].GameNumber);
                 sw.WriteLine("{0}", log[i].GameName);
                 sw.WriteLine("{0}", log[i].Notes);
                 sw.WriteLine("{0}", log[i].AdditionDate);
-                // zmienić oddzielanie danych tabeli w pliku - średniki zamiast linii
             }
             sw.Close();
         }
@@ -38,7 +36,6 @@ namespace BGameList
             int ll = Convert.ToInt32(sr.ReadLine());
             for (int i = 0; i < ll; i++)
             {
-                //log[i].GameNumber = Convert.ToInt32(sr.ReadLine());
                 log[i].GameName = sr.ReadLine(); 
                 log[i].Notes = sr.ReadLine();
                 log[i].AdditionDate = sr.ReadLine();
@@ -60,7 +57,6 @@ namespace BGameList
         }
         public struct Game
         {
-            //public int GameNumber;
             public string GameName;
             public string Notes;
             public string AdditionDate;
@@ -70,6 +66,7 @@ namespace BGameList
         {
             string c = "";
             string r = "";
+            int k;
             int list_lenght = 0;
             string add;
             Game[] log = new Game[499]; //debug i optymalizacja - robić coraz większe tabele
@@ -118,14 +115,9 @@ namespace BGameList
                         log[list_lenght].AdditionDate = Convert.ToString(DateTime.Today); //poprawić formatowanie daty
                         Console.Write("Notes: ");
                         log[list_lenght].Notes = Console.ReadLine();
-                        //log[list_lenght].GameNumber = list_lenght + 1;
                         list_lenght++;
                     }   
                     Array.Sort<Game>(log, (a, b) => a.GameName == null ? 1 : b.GameName == null ? -1 : a.GameName.CompareTo(b.GameName));
-                    /*for (int i = 0; i <= list_lenght; i++)
-                    {
-                        log[i].GameNumber = i+1;
-                    }*/
                     SaveGameList(log, list_lenght);
 
                 }
@@ -138,7 +130,7 @@ namespace BGameList
 
                     for (int i = 0; i < list_lenght; i++)
                     {
-                        int k = i + 1;
+                        k = i + 1;
                         if (r == k.ToString())
                         {
                             for (int j = i; j < list_lenght; j++)
@@ -166,4 +158,3 @@ namespace BGameList
         }
     }
 }
-// nieograniczony array
