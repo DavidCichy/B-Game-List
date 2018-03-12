@@ -12,17 +12,17 @@ namespace BGameList
     {
         public static void SaveGameList(Game[] log, int ll)
         {
-            StreamWriter f = new StreamWriter("gamelist.dat");
-            f.WriteLine("{0}", ll);
+            StreamWriter sw = new StreamWriter("gamelist.dat");
+            sw.WriteLine("{0}", ll);
             for (int i = 0; i < ll; i++)
             {
-                f.WriteLine("{0}", log[i].GameNumber);
-                f.WriteLine("{0}", log[i].GameName);
-                f.WriteLine("{0}", log[i].Notes);
-                f.WriteLine("{0}", log[i].AdditionDate);
+                //sw.WriteLine("{0}", log[i].GameNumber);
+                sw.WriteLine("{0}", log[i].GameName);
+                sw.WriteLine("{0}", log[i].Notes);
+                sw.WriteLine("{0}", log[i].AdditionDate);
                 // zmienić oddzielanie danych tabeli w pliku - średniki zamiast linii
             }
-            f.Close();
+            sw.Close();
         }
         public static int LoadGameListLenght()
         {
@@ -38,7 +38,7 @@ namespace BGameList
             int ll = Convert.ToInt32(sr.ReadLine());
             for (int i = 0; i < ll; i++)
             {
-                log[i].GameNumber = Convert.ToInt32(sr.ReadLine());
+                //log[i].GameNumber = Convert.ToInt32(sr.ReadLine());
                 log[i].GameName = sr.ReadLine(); 
                 log[i].Notes = sr.ReadLine();
                 log[i].AdditionDate = sr.ReadLine();
@@ -50,7 +50,7 @@ namespace BGameList
         {
             for (int i = 0; i < ll; i++)
             {
-                Console.Write("{0}) \"{1}\"", list[i].GameNumber, list[i].GameName);
+                Console.Write("{0}) \"{1}\"", i+1, list[i].GameName);
                 if (list[i].Notes != "")
                 {
                     Console.Write(" - {0}", list[i].Notes);
@@ -60,7 +60,7 @@ namespace BGameList
         }
         public struct Game
         {
-            public int GameNumber;
+            //public int GameNumber;
             public string GameName;
             public string Notes;
             public string AdditionDate;
@@ -118,14 +118,14 @@ namespace BGameList
                         log[list_lenght].AdditionDate = Convert.ToString(DateTime.Today); //poprawić formatowanie daty
                         Console.Write("Notes: ");
                         log[list_lenght].Notes = Console.ReadLine();
-                        log[list_lenght].GameNumber = list_lenght + 1;
+                        //log[list_lenght].GameNumber = list_lenght + 1;
                         list_lenght++;
                     }   
                     Array.Sort<Game>(log, (a, b) => a.GameName == null ? 1 : b.GameName == null ? -1 : a.GameName.CompareTo(b.GameName));
-                    for (int i = 0; i <= list_lenght; i++)
+                    /*for (int i = 0; i <= list_lenght; i++)
                     {
                         log[i].GameNumber = i+1;
-                    }
+                    }*/
                     SaveGameList(log, list_lenght);
 
                 }
@@ -138,14 +138,14 @@ namespace BGameList
 
                     for (int i = 0; i < list_lenght; i++)
                     {
-                        if (r == log[i].GameNumber.ToString())
+                        int k = i + 1;
+                        if (r == k.ToString())
                         {
                             for (int j = i; j < list_lenght; j++)
                             {
                                 if (log[j + 1].GameName != "")
                                 {
                                     log[j] = log[j + 1];
-                                    log[j].GameNumber--;
                                 }
                             }
                             list_lenght--;
