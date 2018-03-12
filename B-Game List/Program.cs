@@ -27,8 +27,9 @@ namespace BGameList
         public static int LoadGameListLenght()
         {
             StreamReader sr = new StreamReader("gamelist.dat");
+            int a = Convert.ToInt32(sr.ReadLine());
             sr.Close();
-            return Convert.ToInt32(sr.ReadLine());
+            return a;
         }
         public static Game[] LoadGameList()
         {
@@ -41,7 +42,6 @@ namespace BGameList
                 log[i].GameName = sr.ReadLine(); 
                 log[i].Notes = sr.ReadLine();
                 log[i].AdditionDate = sr.ReadLine();
-                // zmienić oddzielanie danych tabeli w pliku - średniki zamiast linii
             }
             sr.Close();
             return log;
@@ -64,7 +64,7 @@ namespace BGameList
             public string GameName;
             public string Notes;
             public string AdditionDate;
-        }
+    }
 
         static void Main(string[] args)
         {
@@ -115,11 +115,16 @@ namespace BGameList
                     if (newGame == true)
                     {
                         log[list_lenght].GameName = add;
-                        log[list_lenght].AdditionDate = Convert.ToString(DateTime.Today()); //poprawić formatowanie daty
+                        log[list_lenght].AdditionDate = Convert.ToString(DateTime.Today); //poprawić formatowanie daty
                         Console.Write("Notes: ");
                         log[list_lenght].Notes = Console.ReadLine();
                         log[list_lenght].GameNumber = list_lenght + 1;
                         list_lenght++;
+                    }   
+                    Array.Sort<Game>(log, (a, b) => a.GameName == null ? 1 : b.GameName == null ? -1 : a.GameName.CompareTo(b.GameName));
+                    for (int i = 0; i <= list_lenght; i++)
+                    {
+                        log[i].GameNumber = i+1;
                     }
                     SaveGameList(log, list_lenght);
 
@@ -145,7 +150,6 @@ namespace BGameList
                             }
                             list_lenght--;
                         }
-                        //dodać wyjątek jak nie ma numeru/podanej danej na liście
                     };
                     Console.WriteLine("\nUPDATED GAME LIST:\n");
                     GameList.ListGames(log, list_lenght);
@@ -163,4 +167,3 @@ namespace BGameList
     }
 }
 // nieograniczony array
-// wprowadzić sortowanie alfabetyczne
